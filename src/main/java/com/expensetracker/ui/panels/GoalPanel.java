@@ -122,10 +122,7 @@ public class GoalPanel extends JPanel {
         gbc.gridx = 0; gbc.gridy = 4; gbc.gridwidth = 2; gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(20, 10, 10, 10);
         
-        JButton addButton = new JButton("Add Goal");
-        addButton.setBackground(new Color(37, 99, 235));
-        addButton.setForeground(Color.WHITE);
-        addButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        JButton addButton = createStyledButton("Add Goal", new Color(37, 99, 235), Color.WHITE, new Font("Segoe UI", Font.BOLD, 14));
         addButton.addActionListener(e -> addGoal());
         formPanel.add(addButton, gbc);
         
@@ -254,10 +251,7 @@ public class GoalPanel extends JPanel {
         actionPanel.setBackground(Color.WHITE);
         
         if (!goal.isCompleted()) {
-            JButton addMoneyButton = new JButton("Add Money");
-            addMoneyButton.setBackground(new Color(34, 197, 94));
-            addMoneyButton.setForeground(Color.WHITE);
-            addMoneyButton.setFont(new Font("Segoe UI", Font.BOLD, 12));
+            JButton addMoneyButton = createStyledButton("Add Money", new Color(34, 197, 94), Color.WHITE, new Font("Segoe UI", Font.BOLD, 12));
             addMoneyButton.addActionListener(e -> showAddMoneyDialog(goal));
             actionPanel.add(addMoneyButton);
             actionPanel.add(Box.createVerticalStrut(5));
@@ -269,10 +263,7 @@ public class GoalPanel extends JPanel {
             actionPanel.add(Box.createVerticalStrut(5));
         }
         
-        JButton deleteButton = new JButton("Delete");
-        deleteButton.setBackground(new Color(239, 68, 68));
-        deleteButton.setForeground(Color.WHITE);
-        deleteButton.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        JButton deleteButton = createStyledButton("Delete", new Color(239, 68, 68), Color.WHITE, new Font("Segoe UI", Font.BOLD, 12));
         deleteButton.addActionListener(e -> deleteGoal(goal));
         actionPanel.add(deleteButton);
         
@@ -287,6 +278,26 @@ public class GoalPanel extends JPanel {
         item.add(actionPanel, BorderLayout.EAST);
         
         return item;
+    }
+    
+    private JButton createStyledButton(String text, Color bgColor, Color fgColor, Font font) {
+        JButton button = new JButton(text);
+        button.setBackground(bgColor);
+        button.setForeground(fgColor);
+        button.setFont(font);
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.setOpaque(true);
+
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(bgColor.darker());
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(bgColor);
+            }
+        });
+        return button;
     }
     
     private void showAddMoneyDialog(Goal goal) {
