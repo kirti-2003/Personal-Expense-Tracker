@@ -46,17 +46,27 @@ public class ReportPanel extends JPanel {
         summaryPanel.setBorder(BorderFactory.createTitledBorder("Monthly Summary"));
         
         // Category breakdown
-        categoryPanel = new JPanel();
+        categoryPanel = new JPanel(); // This panel holds the actual category items
         categoryPanel.setLayout(new BoxLayout(categoryPanel, BoxLayout.Y_AXIS));
         categoryPanel.setBackground(Color.WHITE);
-        categoryPanel.setBorder(BorderFactory.createTitledBorder("Category Breakdown"));
+        categoryPanel.setBorder(BorderFactory.createTitledBorder("Category Breakdown")); // Border is on the panel that scrolls
+
+        JScrollPane categoryScrollPane = new JScrollPane(categoryPanel);
+        categoryScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        categoryScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        // Remove default border of JScrollPane if categoryPanel already has one, or style as needed
+        categoryScrollPane.setBorder(BorderFactory.createEmptyBorder()); 
         
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         splitPane.setTopComponent(summaryPanel);
-        splitPane.setBottomComponent(categoryPanel);
-        splitPane.setDividerLocation(300);
+        splitPane.setBottomComponent(categoryScrollPane); // Add the scrollable category panel
+        splitPane.setDividerLocation(200); // Adjusted for potentially smaller summary panel height
+        splitPane.setResizeWeight(0.3);    // Summary panel gets 30% of resize delta
+        splitPane.setOneTouchExpandable(true); // Adds collapse/expand arrows
         
         mainPanel.add(splitPane, BorderLayout.CENTER);
+        
+        // Add mainPanel directly, it's no longer wrapped in its own JScrollPane
         add(mainPanel, BorderLayout.CENTER);
     }
     
